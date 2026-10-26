@@ -1,0 +1,18 @@
+import 'package:api_rest/models/posts_model.dart';
+import 'package:api_rest/api/api_config.dart';
+import 'package:dio/dio.dart';
+
+class PostsService {
+  final _dio = Dio();
+
+  //Read - GET
+  Future<List<PostsModel>> getPosts() async {
+    var response = await _dio.get('${ApiConfig.baseUrl}/posts');
+
+    // 2. Dio entrega o corpo já em List dinâmica
+    final list = response.data as List;
+
+    // 3. Converte a lista dinâmica para a lista tipada de PostsModel
+    return list.map((item) => PostsModel.fromMap(item)).toList();
+  }
+}
