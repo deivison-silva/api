@@ -3,6 +3,7 @@
   "private": true,
   "description": "Script de conveniência para iniciar o mock server a partir da raiz do repositório",
   "scripts": {
+    "setup": "npm --prefix server install",
     "start": "npm --prefix server start",
     "server": "npm --prefix server start"
   }
