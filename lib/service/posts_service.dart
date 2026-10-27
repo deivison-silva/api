@@ -20,4 +20,17 @@ class PostsService {
   Future<void> deletePost(int id) async {
     await _dio.delete('${ApiConfig.baseUrl}/posts/$id');
   }
+
+  //Create - POST
+  Future<void> createPost({
+    required int userId,
+    required String title,
+    required String body,
+  }) async {
+    final response = await _dio.post(
+      '${ApiConfig.baseUrl}/posts',
+      data: {'userId': userId, 'title': title, 'body': body},
+    );
+    return response.data;
+  }
 }
