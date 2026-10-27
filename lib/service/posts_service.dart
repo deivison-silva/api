@@ -15,4 +15,9 @@ class PostsService {
     // 3. Converte a lista dinâmica para a lista tipada de PostsModel
     return list.map((item) => PostsModel.fromMap(item)).toList();
   }
+
+  //Delete - DELETE
+  Future<void> deletePost(int id) async {
+    await _dio.delete('${ApiConfig.baseUrl}/posts/$id');
+  }
 }

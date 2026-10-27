@@ -76,18 +76,35 @@ class _MyHomePageState extends State<MyHomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(posts[index].body),
-                    TextButton(
-                      onPressed: () {
-                        // push -> ir para uma nova tela
+                    Row(
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            // push -> ir para uma nova tela
 
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) =>
-                                CommentPage(postID: posts[index].id),
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    CommentPage(postID: posts[index].id),
+                              ),
+                            );
+                          },
+                          child: Text('Comentários'),
+                        ),
+                        IconButton(
+                          icon: const Icon(
+                            Icons.delete_outline,
+                            color: Colors.red,
                           ),
-                        );
-                      },
-                      child: Text('Comentários'),
+                          tooltip: 'Remover post',
+                          onPressed: () async {
+                            await _service.deletePost(posts[index].id);
+                            setState(() {
+                              _futurePosts = _service.getPosts();
+                            });
+                          },
+                        ),
+                      ],
                     ),
                   ],
                 ),
