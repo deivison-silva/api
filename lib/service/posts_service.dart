@@ -22,15 +22,13 @@ class PostsService {
   }
 
   //Create - POST
-  Future<void> createPost({
-    required int userId,
-    required String title,
-    required String body,
-  }) async {
+  Future<void> createPost({required String title, required String body}) async {
     final response = await _dio.post(
       '${ApiConfig.baseUrl}/posts',
-      data: {'userId': userId, 'title': title, 'body': body},
+      data: {'title': title, 'body': body},
     );
     return response.data;
   }
+
+  //Update - PUT
 }
