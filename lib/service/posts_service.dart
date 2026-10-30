@@ -31,4 +31,15 @@ class PostsService {
   }
 
   //Update - PUT
+  Future<void> updatePost(
+    int id, {
+    required String title,
+    required String body,
+  }) async {
+    final response = await _dio.put(
+      '${ApiConfig.baseUrl}/posts/$id',
+      data: {'title': title, 'body': body},
+    );
+    return response.data;
+  }
 }

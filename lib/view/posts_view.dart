@@ -77,7 +77,17 @@ class _PostsViewState extends State<PostsView> {
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             if (isEditing) {
-                              // _service.updatePost(post.id);
+                              await _service.updatePost(
+                                post.id,
+                                title: titleController.text,
+                                body: bodyController.text,
+                              );
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                              }
+                              setState(() {
+                                _futurePosts = _service.getPosts();
+                              });
                             } else {
                               final title = titleController.text;
                               final body = bodyController.text;
@@ -178,10 +188,32 @@ class _PostsViewState extends State<PostsView> {
                           ),
                           tooltip: 'Remover post',
                           onPressed: () async {
-                            await _service.deletePost(posts[index].id);
-                            setState(() {
-                              _futurePosts = _service.getPosts();
-                            });
+                            showDialog(
+                              context: context,
+                              builder: (dialogContext) {
+                                return AlertDialog(
+                                  title: Text("Deseja apagar o post?"),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text("Cancelar"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () async {
+                                        await _service.deletePost(
+                                          posts[index].id,
+                                        );
+                                        setState(() {
+                                          _futurePosts = _service.getPosts();
+                                        });
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text("Apagar"),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                           },
                         ),
                         IconButton(
